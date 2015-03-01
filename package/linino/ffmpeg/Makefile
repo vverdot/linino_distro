@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2006-2014 OpenWrt.org
+# Copyright (C) 2006-2015 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffmpeg
-PKG_VERSION:=2.4.5
+PKG_VERSION:=2.5.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=http://ffmpeg.org/releases/
-PKG_MD5SUM:=685362fc14d2c28568a5d36b3760795a
+PKG_MD5SUM:=af92a816b642d32134a764d2d7f55b75
 PKG_MAINTAINER:=Ted Hess <thess@kitschensync.net>
 
 PKG_LICENSE:=LGPL-2.1+ GPL-2+ LGPL-3
@@ -219,7 +219,6 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/ffmpeg/Default
  TITLE:=FFmpeg
- DEPENDS:=+lame +lame-lib
  URL:=http://ffmpeg.mplayerhq.hu/
 endef
 
@@ -323,7 +322,7 @@ endef
 define Package/libffmpeg-full
 $(call Package/libffmpeg/Default)
  TITLE+= (full)
- DEPENDS+= @BUILD_PATENTED +alsa-lib
+ DEPENDS+= @BUILD_PATENTED +alsa-lib +lame-lib
  VARIANT:=full
 endef
 
@@ -391,6 +390,7 @@ FFMPEG_CONFIGURE:= \
 	--disable-inline-asm \
 	--disable-yasm \
 	--enable-libmp3lame \
+	--disable-mips32r2 \
 	--disable-mipsdspr1 \
 	--disable-mipsdspr2 \
 	--disable-mipsfpu \
@@ -401,10 +401,6 @@ FFMPEG_CONFIGURE:= \
 	--disable-vdpau \
 	--disable-outdevs
 
-ifeq ($(CONFIG_CPU_TYPE),"mips32")
-	FFMPEG_CONFIGURE +=--disable-mips32r2
-endif
-
 ifeq ($(BUILD_VARIANT),custom)
 
   FFMPEG_ENABLE= \
@@ -413,6 +409,7 @@ ifeq ($(BUILD_VARIANT),custom)
 	)
 
   FFMPEG_CONFIGURE+= \
+	--disable-programs \
 	--disable-avfilter \
 	--disable-postproc \
 	--disable-swresample \
