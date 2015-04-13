@@ -77,12 +77,6 @@ prepare-tmpinfo: FORCE
 		$(_SINGLE)$(NO_TRACE_MAKE) menuconfig $(PREP_MK); \
 	fi
 
-deflinino: ./scripts/config/conf $(if $(CONFIG_HAVE_DOT_CONFIG),,prepare-tmpinfo)
-	@+if [ -e .config ]; then rm .config;\
-		[ -e $(TOPDIR)/configfiles/lininoconfig ] && cp $(TOPDIR)/configfiles/lininoconfig .config;\
-		$(_SINGLE)$(NO_TRACE_MAKE) oldconfig $(PREP_MK); \
-	fi
-
 scripts/config/mconf:
 	@$(_SINGLE)$(SUBMAKE) -s -C scripts/config all CC="$(HOSTCC_WRAPPER)"
 
@@ -101,9 +95,10 @@ defconfig: scripts/config/conf prepare-tmpinfo FORCE
 	touch .config
 	$< -D .config Config.in
 
-deflinino2: scripts/config/conf prepare-tmpinfo FORCE
+deflinino: scripts/config/conf prepare-tmpinfo FORCE
 	touch .config
-	$< -D .linino Config.in
+	@if [ -e $(TOPDIR)/configfiles/lininoconfig ]; then cp $(TOPDIR)/configfiles/lininoconfig .config; fi
+	$< -D .config Config.in
 
 oldconfig: scripts/config/conf prepare-tmpinfo FORCE
 	$< -$(if $(CONFDEFAULT),$(CONFDEFAULT),o) Config.in
