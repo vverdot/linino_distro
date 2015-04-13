@@ -78,8 +78,9 @@ prepare-tmpinfo: FORCE
 	fi
 
 deflinino: ./scripts/config/conf $(if $(CONFIG_HAVE_DOT_CONFIG),,prepare-tmpinfo)
-	@+if [ \! -e .config ] || ! grep CONFIG_HAVE_DOT_CONFIG .config >/dev/null; then \
-		[ -e $(TOPDIR)/configfiles/lininoconfig ] && cp $(TOPDIR)/configfiles/lininoconfig .config; \
+	@+if [ -e .config ]; then rm .config;\
+		[ -e $(TOPDIR)/configfiles/lininoconfig ] && cp $(TOPDIR)/configfiles/lininoconfig .config;\
+		$(_SINGLE)$(NO_TRACE_MAKE) oldconfig $(PREP_MK); \
 	fi
 
 scripts/config/mconf:
@@ -99,6 +100,10 @@ config-clean: FORCE
 defconfig: scripts/config/conf prepare-tmpinfo FORCE
 	touch .config
 	$< -D .config Config.in
+
+deflinino2: scripts/config/conf prepare-tmpinfo FORCE
+	touch .config
+	$< -D .linino Config.in
 
 oldconfig: scripts/config/conf prepare-tmpinfo FORCE
 	$< -$(if $(CONFDEFAULT),$(CONFDEFAULT),o) Config.in
