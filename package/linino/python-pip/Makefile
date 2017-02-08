@@ -3,19 +3,20 @@
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
-# 
+#
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python-pip
-PKG_VERSION:=8.1.0
+PKG_VERSION:=9.0.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=pip-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://pypi.python.org/packages/source/p/pip/
-PKG_MD5SUM:=e9c3844db343f47d16040b32ad9072be
+PKG_SOURCE_URL:=https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05aac21c32c638e939e447/
+PKG_MD5SUM:=35f01da33009719497f01a4ba69d63c9
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/pip-$(PKG_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/python-pip-$(PKG_VERSION)
+PKG_UNPACK=$(HOST_TAR) -C $(PKG_BUILD_DIR) --strip-components=1 -xzf $(DL_DIR)/$(PKG_SOURCE)
 PKG_USE_MIPS16:=0
 
 include $(INCLUDE_DIR)/package.mk
@@ -27,7 +28,7 @@ define Package/python-pip
   CATEGORY:=Languages
   TITLE:=Tool for installing Python packages.
   URL:=https://pip.pypa.io
-  DEPENDS:=+python +python-setuptools +ca-certificates
+  DEPENDS:=+python +python-setuptools +ca-certificates +python-wheel
   MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>
 endef
 
@@ -55,4 +56,3 @@ endef
 
 $(eval $(call PyPackage,python-pip))
 $(eval $(call BuildPackage,python-pip))
-
