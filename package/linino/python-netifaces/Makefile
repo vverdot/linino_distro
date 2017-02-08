@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=netifaces
-PKG_VERSION:=0.10.0
+PKG_VERSION:=0.10.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -24,7 +24,7 @@ define Package/python-netifaces
   SUBMENU:=Python
   TITLE:=python-netifaces
   URL:=http://sourceforge.net/projects/netifaces
-  DEPENDS:=+python
+  DEPENDS:=+python +python-setuptools
 endef
 
 define Package/python-netifaces/description
