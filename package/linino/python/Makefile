@@ -73,6 +73,18 @@ $(call Package/python/Default/description)
   This package contains only a minimal Python install.
 endef
 
+define Package/python-dev
+$(call Package/python/Default)
+  TITLE:=Python development files
+  DEPENDS:=+libpthread +zlib +libffi +libopenssl +python-mini
+endef
+
+define Package/python-dev/description
+$(call Package/python/Default/description)
+  .
+  This package contains Python development files.
+endef
+
 define Package/python-doc
 $(call Package/python/Default)
   TITLE:=Python interactive documentation
@@ -412,6 +424,20 @@ define PyPackage/python-mini/install
 	ln -sf python$(PYTHON_VERSION) $(1)/usr/bin/python
 endef
 
+define PyPackage/python-dev/filespec
++|/usr/lib/python$(PYTHON_VERSION)/config
+-|/usr/lib/python$(PYTHON_VERSION)/config/Makefile
++|/usr/include/python$(PYTHON_VERSION)
+-|/usr/include/python$(PYTHON_VERSION)/pyconfig.h
++|/usr/lib/pkgconfig
+endef
+
+define PyPackage/python-dev/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_INSTALL_DIR)/usr/bin/python*config $(1)/usr/bin
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libpython$(PYTHON_VERSION).a $(1)/usr/lib
+endef
+
 define PyPackage/python-doc/filespec
 +|/usr/lib/python$(PYTHON_VERSION)/pydoc_data
 +|/usr/lib/python$(PYTHON_VERSION)/pydoc.py
@@ -490,6 +516,7 @@ $(eval $(call HostBuild))
 
 $(eval $(call PyPackage,python))
 $(eval $(call PyPackage,python-mini))
+$(eval $(call PyPackage,python-dev))
 $(eval $(call PyPackage,python-doc))
 $(eval $(call PyPackage,python-bzip2))
 $(eval $(call PyPackage,python-expat))
@@ -503,6 +530,7 @@ $(eval $(call PyPackage,python-ncurses))
 
 $(eval $(call BuildPackage,python))
 $(eval $(call BuildPackage,python-mini))
+$(eval $(call BuildPackage,python-dev))
 $(eval $(call BuildPackage,python-doc))
 $(eval $(call BuildPackage,python-bzip2))
 $(eval $(call BuildPackage,python-expat))
