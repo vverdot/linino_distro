@@ -7,27 +7,33 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=netifaces
-PKG_VERSION:=0.10.5
+PKG_NAME:=wheel
+PKG_VERSION:=0.30.0a0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://pypi.python.org/packages/source/n/netifaces/
+PKG_SOURCE_URL:=https://pypi.python.org/packages/source/w/wheel/
+#PKG_BUILD_DIR:=$(BUILD_DIR)/SleekXMPP-$(PKG_NAME)-$(PKG_VERSION)
 PKG_MD5SUM:=
+
+# PKG_BUILD_DEPENDS:=+python-expat +python-openssl +libopenssl
+
+# TARGET_LDFLAGS += -L${STAGING_DIR}/lib \
+		-L${STAGING_DIR}/usr/lib/python2.7
 
 include $(INCLUDE_DIR)/package.mk
 $(call include_mk, python-package.mk)
 
-define Package/python-netifaces
+define Package/python-wheel
   SECTION:=language-python
   CATEGORY:=Languages
   SUBMENU:=Python
-  TITLE:=python-netifaces
-  URL:=http://sourceforge.net/projects/netifaces
-  DEPENDS:=+python +python-setuptools
+  TITLE:=python-wheel
+  URL:=http://sourceforge.net/projects/wheel
+  DEPENDS:=+python
 endef
 
-define Package/python-netifaces/description
+define Package/python-wheel/description
 Python module interface to the cURL library.
 endef
 
@@ -35,11 +41,11 @@ define Build/Compile
 	$(call Build/Compile/PyMod,,install --prefix=/usr --root=$(PKG_INSTALL_DIR))
 endef
 
-define Package/python-netifaces/install
+define Package/python-wheel/install
 	$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)
 	$(CP) \
 		$(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/* \
 		$(1)$(PYTHON_PKG_DIR)
 endef
 
-$(eval $(call BuildPackage,python-netifaces))
+$(eval $(call BuildPackage,python-wheel))

@@ -57,7 +57,10 @@ define Build/Prepare
 	patch -p1 < download-gyp.patch; \
 	);
 	$(eval $(call Download,nodebin))
+	# downloading node binary tarball
 	$(TAR) -xvf $(DL_DIR)/$(NODEJS) -C $(STAGING_DIR_HOST) --strip-components=1
+	#updating npm
+	$(STAGING_DIR_HOST)/bin/npm update npm -g $(STAGING_DIR_HOST)/lib/node_modules
 endef
 
 define Build/Configure

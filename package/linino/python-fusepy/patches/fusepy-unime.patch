@@ -1,0 +1,28 @@
+--- a/fuse.py	2017-02-02 12:45:08.151472800 +0100
++++ b/fuse.py	2017-02-02 12:45:08.183473311 +0100
+@@ -24,6 +24,10 @@
+ from stat import S_IFDIR
+ from traceback import print_exc
+
++#UNIME PATCH
++from os import environ
++from os.path import join
++
+ import logging
+
+ try:
+@@ -64,6 +68,14 @@
+                      find_library('fuse'))
+ else:
+     _libfuse_path = find_library('fuse')
++
++    #UNIME PATCH -----------------------------------------------------------------
++    if not _libfuse_path:
++    	_libfuse_path = find_library('fuse')
++    	_libfuse_root = environ['FUSE_LIBRARY_PATH']
++     	_lib_filename = environ.get('FUSE_LIBRARY_FILENAME', 'libfuse.so.2')
++      	_libfuse_path = join(_libfuse_root, _lib_filename)
++    #-----------------------------------------------------------------------------
+
+ if not _libfuse_path:
+     raise EnvironmentError('Unable to find libfuse')

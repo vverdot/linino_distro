@@ -18,6 +18,9 @@ writeinfo () {
 	echo "DISTRIB_CODENAME="\""attitude_adjustment"\""" >> $LININOFILE
 	echo "DISTRIB_TARGET="\""ar71xx/generic"\""" >> $LININOFILE
 	echo "BUILD_DATE="\""$builddate"\""" >> $LININOFILE
+
+	sed -i /VERSION\_NUMBER/d .config
+	echo "CONFIG_VERSION_NUMBER="\""$gitcommit"\""" >> .config
 	
 }
 

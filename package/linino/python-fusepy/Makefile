@@ -7,27 +7,32 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=netifaces
-PKG_VERSION:=0.10.5
+PKG_NAME:=fusepy
+PKG_VERSION:=2.0.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://pypi.python.org/packages/source/n/netifaces/
-PKG_MD5SUM:=
+PKG_SOURCE_URL:=https://pypi.python.org/packages/70/aa/959d781b7ac979af1a9fbea0faffe06677c390907b56b8ce024eb9320451
+PKG_MD5SUM:=2b9ac15c1ee854e402ed2f63039d59dd
+
+# PKG_BUILD_DEPENDS:=+python-expat +python-openssl +libopenssl
+
+# TARGET_LDFLAGS += -L${STAGING_DIR}/lib \
+		-L${STAGING_DIR}/usr/lib/python2.7
 
 include $(INCLUDE_DIR)/package.mk
 $(call include_mk, python-package.mk)
 
-define Package/python-netifaces
+define Package/python-fusepy
   SECTION:=language-python
   CATEGORY:=Languages
   SUBMENU:=Python
-  TITLE:=python-netifaces
-  URL:=http://sourceforge.net/projects/netifaces
-  DEPENDS:=+python +python-setuptools
+  TITLE:=python-fusepy
+  URL:=http://sourceforge.net/projects/flask
+  DEPENDS:=+python
 endef
 
-define Package/python-netifaces/description
+define Package/python-fusepy/description
 Python module interface to the cURL library.
 endef
 
@@ -35,11 +40,11 @@ define Build/Compile
 	$(call Build/Compile/PyMod,,install --prefix=/usr --root=$(PKG_INSTALL_DIR))
 endef
 
-define Package/python-netifaces/install
+define Package/python-fusepy/install
 	$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)
 	$(CP) \
 		$(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/* \
 		$(1)$(PYTHON_PKG_DIR)
 endef
 
-$(eval $(call BuildPackage,python-netifaces))
+$(eval $(call BuildPackage,python-fusepy))
