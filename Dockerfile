@@ -37,6 +37,6 @@ RUN ./scripts/feeds install -a
 RUN cp ${WD}/configfiles/basic_yun ${WD}/.config
 RUN sudo ln -s /lib/terminfo/ /usr/share/terminfo
 
-RUN make tools/install V=99 && make toolchain/install V=99A
+RUN make tools/install V=99 && make toolchain/install V=99
 #RUN make V=s -j9
 RUN make V=s
